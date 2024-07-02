@@ -1,0 +1,36 @@
+## 生成新的 SSH 密钥并将其添加到 ssh-agent
+
+# 生成新的 SSH 密钥并将其添加到 ssh-agent
+
+# 生成新 SSH 密钥
+ssh-keygen -t ed25519 -C "kunge.lee@gmail.com"
+
+# 回车3次后生成
+
+# 在 GitHub 添加 SSH 公钥  （后添加也可以）
+
+# 将 SSH 密钥添加到 ssh-agent
+# WT 中 以管理员运行 (自动：Automatic)
+# 自动 
+# Get-Service -Name ssh-agent | Set-Service -StartupType Automatic
+# 手动
+Get-Service -Name ssh-agent | Set-Service -StartupType Manual
+Start-Service ssh-agent
+
+# 添加到 ssh-agent
+# https://stackoverflow.com/questions/9270734/ssh-permissions-are-too-open
+# C:\Users\USERNAME\.ssh\private_key
+# 要更改 Windows 10 中的权限设置：
+# 文件设置>安全>高级
+# 禁用继承
+# 将继承的权限转换为显式权限
+# 删除除管理员之外的所有权限条目
+# 然后就可以安全连接了。
+ssh-add c:/Users/YOU/.ssh/id_ed25519
+
+# 步骤参考
+# https://blog.csdn.net/qq_25741071/article/details/129364977
+
+# 直接 git clone 到本地后，直接就可以 git push
+
+***C:/home/.ssh/... 才起作用， c:/user/admimistrator/.ssh/... ssh-add -L 会显示旧的公匙***
